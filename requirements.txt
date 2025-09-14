@@ -1,0 +1,14 @@
+numpy
+pandas
+scikit-learn
+joblib
+fastapi
+uvicorn
+
+mlflow
+optuna
+xgboost
+lightgbm
+tensorflow
+shap
+python-pptx

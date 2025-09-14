@@ -1,0 +1,76 @@
+{
+  "dataset": {
+    "tables": {
+      "customers": [
+        "customer_id",
+        "tenure",
+        "monthly_charges",
+        "total_charges",
+        "contract",
+        "payment_method",
+        "has_internet",
+        "churn"
+      ],
+      "features": [
+        "customer_id",
+        "recency_days",
+        "frequency",
+        "monetary",
+        "avg_30d",
+        "avg_90d",
+        "rfm_score",
+        "tenure_bucket",
+        "monthly_norm"
+      ],
+      "cltv": [
+        "customer_id",
+        "cltv_90d",
+        "predicted_cltv"
+      ],
+      "anomalies": [
+        "tx_id",
+        "customer_id",
+        "timestamp",
+        "amount",
+        "anomaly_score",
+        "anomaly_flag"
+      ]
+    }
+  },
+  "measures": {
+    "Churn Rate": "DIVIDE(COUNTROWS(FILTER(customers,customers[churn]=1)),COUNTROWS(customers))",
+    "Avg CLTV": "AVERAGE(cltv[predicted_cltv])",
+    "Anomalies Count": "COUNTROWS(FILTER(anomalies, anomalies[anomaly_flag]=1))"
+  },
+  "visuals": [
+    {
+      "type": "line",
+      "title": "Churn Rate Over Time",
+      "table": "customers",
+      "field": "recency_days"
+    },
+    {
+      "type": "bar",
+      "title": "Top Risk Segments by Tenure Bucket",
+      "table": "features",
+      "groupby": "tenure_bucket",
+      "measure": "Churn Rate"
+    },
+    {
+      "type": "table",
+      "title": "Top 20 At-Risk Customers",
+      "table": "features",
+      "fields": [
+        "customer_id",
+        "rfm_score",
+        "avg_30d",
+        "predicted_cltv"
+      ]
+    },
+    {
+      "type": "card",
+      "title": "Current Anomalies",
+      "measure": "Anomalies Count"
+    }
+  ]
+}
